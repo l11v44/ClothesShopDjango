@@ -1,29 +1,44 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="max-w-4xl mx-auto py-16 px-4">
-    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 md:p-12">
-        <h1 class="text-3xl font-bold mb-8">My Profile</h1>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="space-y-4">
-                <h3 class="text-lg font-semibold text-gray-500">Account Details</h3>
-                <p><strong class="text-gray-900">Username:</strong> {{ user.username }}</p>
-                <p><strong class="text-gray-900">Email:</strong> {{ user.email }}</p>
-            </div>
-            
-            <div class="space-y-4">
-                <h3 class="text-lg font-semibold text-gray-500">Actions</h3>
-                <a href="{% url 'logout' %}" class="inline-block bg-red-50 text-red-600 px-6 py-2 rounded-full font-semibold hover:bg-red-100 transition">
-                    Logout
-                </a>
-            </div>
-        </div>
+<div class="max-w-5xl mx-auto py-16 px-4">
+    <h1 class="text-3xl font-black mb-8">My Orders</h1>
 
-        <div class="mt-12 pt-12 border-t border-gray-100">
-            <h3 class="text-2xl font-bold mb-6">Order History</h3>
-            <p class="text-gray-500">You haven't placed any orders yet.</p>
-        </div>
+    {% if orders %}
+    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+        <table class="w-full text-left">
+            <thead class="bg-gray-50 border-b border-gray-100">
+                <tr>
+                    <th class="p-4">Order #</th>
+                    <th class="p-4">Date</th>
+                    <th class="p-4">Status</th>
+                    <th class="p-4">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
+                    <td class="p-4 font-bold">#{{ order.id }}</td>
+                    <td class="p-4 text-gray-600">{{ order.created_at|date:"d M Y" }}</td>
+                    <td class="p-4">
+                        <span class="px-3 py-1 rounded-full text-sm font-semibold
+                            {% if order.status == 'pending' %}bg-yellow-100 text-yellow-700
+                            {% elif order.status == 'shipped' %}bg-blue-100 text-blue-700
+                            {% else %}bg-green-100 text-green-700{% endif %}">
+                            {{ order.get_status_display }}
+                        </span>
+                    </td>
+                    <td class="p-4 font-bold text-indigo-600">${{ order.get_total_cost }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
+    {% else %}
+    <div class="text-center py-20">
+        <p class="text-gray-500 text-lg">You haven't placed any orders yet.</p>
+        <a href="/" class="mt-4 inline-block text-indigo-600 font-bold hover:underline">Go shopping</a>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

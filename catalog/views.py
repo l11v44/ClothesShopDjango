@@ -13,8 +13,7 @@ from orders.forms import MyNewOrderForm
 # --- КОРЗИНА И ЗАКАЗЫ ---
 
 def checkout(request):
-    form = MyNewOrderForm(request.POST)
-    print("ВСЕ ПОЛЯ ФОРМЫ:", form.fields.keys())
+    # Создаем сессию, если её нет
     if not request.session.session_key:
         request.session.create()
 
@@ -23,20 +22,25 @@ def checkout(request):
     total_price = sum(item.product.price * item.quantity for item in cart_items)
 
     if request.method == 'POST':
-        form = MyNewOrderForm(request.POST)  # Принимаем данные
+        form = MyNewOrderForm(request.POST)
         if form.is_valid():
             order = form.save(commit=False)
             if request.user.is_authenticated:
                 order.user = request.user
+            # Можно сохранить общую сумму, если поле есть в модели
+            order.total_price = total_price
             order.save()
 
+            # Создаем товары заказа
             for item in cart_items:
-                OrderItem.objects.create(order=order, product=item.product, price=item.product.price,
-                                         quantity=item.quantity)
-            cart_items.delete()
-            return redirect('home')
-        # ЕСЛИ form.is_valid() ВЕРНУЛО FALSE, МЫ НЕ ДЕЛАЕМ ELSE
-        # Мы просто провалимся вниз и форма передастся в шаблон с ошибками
+                OrderItem.objects.create(
+                    order=order,
+                    product=item.product,
+                    price=item.product.price,
+                    quantity=item.quantity
+                )
+            cart_items.delete() # Очищаем корзину
+            return redirect('home') # Или на страницу успеха
     else:
         form = MyNewOrderForm()
 
@@ -151,3 +155,17 @@ def login_view(request):
         for field in form.fields.values():
             field.widget.attrs.update({'class': 'w-full px-4 py-3 rounded-xl border border-gray-200'})
     return render(request, 'login.html', {'form': form})
+
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+
+
+@login_required  # Доступ только для авторизованных
+def profile(request):
+    # Берем только те заказы, где user совпадает с тем, кто сейчас на сайте
+    my_orders = Order.objects.filter(user=request.user).order_by('-created_at')
+
+    return render(request, 'profile.html', {
+        'orders': my_orders
+    })
