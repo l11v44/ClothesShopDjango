@@ -15,7 +15,14 @@
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
-
+<div class="fixed top-20 right-5 z-[9999]">
+    {% for message in messages %}
+        <div class="mb-4 p-4 rounded-lg shadow-lg text-white
+            {% if message.tags == 'success' %}bg-green-500{% else %}bg-blue-500{% endif %}">
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
     <nav class="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-gray-200/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">

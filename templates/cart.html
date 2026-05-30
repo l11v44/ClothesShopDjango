@@ -1,4 +1,3 @@
-
 {% extends 'base.html' %}
 {% load cart_extras %}
 
@@ -13,18 +12,19 @@
                 <div class="flex items-center justify-between border-b pb-6">
                     <div class="flex items-center gap-4">
                         <div class="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden">
-                            {% if item.product.image %}
-                                <img src="{{ item.product.image.url }}" class="w-full h-full object-cover">
+                            {% if item.product_variant.product.image %}
+                                <img src="{{ item.product_variant.product.image.url }}" class="w-full h-full object-cover">
                             {% endif %}
                         </div>
                         <div>
-                            <h2 class="font-bold text-lg">{{ item.product.name }}</h2>
-                            <p class="text-gray-500">{{ item.product.price }} $ x {{ item.quantity }}</p>
+                            <h2 class="font-bold text-lg">{{ item.product_variant.product.title }}</h2>
+                            <p class="text-sm text-gray-500">Size: {{ item.product_variant.size }} | Color: {{ item.product_variant.color }}</p>
+                            <p class="text-gray-500">{{ item.product_variant.product.price }} $ x {{ item.quantity }}</p>
                         </div>
                     </div>
                     <div class="text-right">
-                        <p class="font-bold text-xl">{{ item.product.price|multiply:item.quantity }} $</p>
-                        <a href="{% url 'cart_remove' item.product.id %}" class="text-red-500 text-sm hover:underline">Remove</a>
+                        <p class="font-bold text-xl">{{ item.product_variant.product.price|multiply:item.quantity }} $</p>
+                        <a href="{% url 'cart_remove' item.product_variant.id %}" class="text-red-500 text-sm hover:underline">Remove</a>
                     </div>
                 </div>
                 {% endfor %}

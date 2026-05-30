@@ -8,18 +8,22 @@ from catalog.models import Product, Category
 from cart.models import CartItem
 from orders.models import Order, OrderItem
 from orders.forms import MyNewOrderForm
-
+from django.contrib import messages
+from orders.utils import send_order_confirmation
 
 # --- КОРЗИНА И ЗАКАЗЫ ---
 
 def checkout(request):
-    # Создаем сессию, если её нет
     if not request.session.session_key:
         request.session.create()
 
     session_id = request.session.session_key
     cart_items = CartItem.objects.filter(session_id=session_id)
-    total_price = sum(item.product.price * item.quantity for item in cart_items)
+
+    # Считаем сумму, аккуратно вытягивая цену из вариации
+    total_price = 0
+    for item in cart_items:
+        total_price += item.product_variant.product.price * item.quantity
 
     if request.method == 'POST':
         form = MyNewOrderForm(request.POST)
@@ -27,20 +31,24 @@ def checkout(request):
             order = form.save(commit=False)
             if request.user.is_authenticated:
                 order.user = request.user
-            # Можно сохранить общую сумму, если поле есть в модели
             order.total_price = total_price
             order.save()
+            send_order_confirmation(order)
 
             # Создаем товары заказа
             for item in cart_items:
+                product_obj = item.product_variant.product
+
                 OrderItem.objects.create(
                     order=order,
-                    product=item.product,
-                    price=item.product.price,
+                    product=product_obj,
+                    product_variant=item.product_variant,
+                    price=product_obj.price,
                     quantity=item.quantity
                 )
-            cart_items.delete() # Очищаем корзину
-            return redirect('home') # Или на страницу успеха
+
+            cart_items.delete()
+            return redirect('home')
     else:
         form = MyNewOrderForm()
 
@@ -50,15 +58,25 @@ def checkout(request):
         'total_price': total_price
     })
 
-def cart_add(request, product_id):
+
+
+
+
+from catalog.models import ProductVariant
+
+def cart_add(request, variant_id):  # Принимаем variant_id
     if not request.session.session_key:
         request.session.create()
 
-    product = get_object_or_404(Product, id=product_id)
+    # Ищем конкретную вариацию (размер/цвет)
+    variant = get_object_or_404(ProductVariant, id=variant_id)
+
+    # Ищем или создаем элемент корзины именно для этой вариации
     item, created = CartItem.objects.get_or_create(
-        product=product,
+        product_variant=variant,  # Теперь привязываемся к вариации
         session_id=request.session.session_key
     )
+
     if not created:
         item.quantity += 1
         item.save()
@@ -69,19 +87,15 @@ def cart_add(request, product_id):
 def cart_detail(request):
     if not request.session.session_key:
         request.session.create()
-
     cart_items = CartItem.objects.filter(session_id=request.session.session_key)
-    total_price = sum(item.product.price * item.quantity for item in cart_items)
+    # ИСПРАВЛЕНО:
+    total_price = sum(item.product_variant.product.price * item.quantity for item in cart_items)
+    return render(request, 'cart.html', {'cart_items': cart_items, 'total_price': total_price})
 
-    return render(request, 'cart.html', {
-        'cart_items': cart_items,
-        'total_price': total_price
-    })
-
-
-def cart_remove(request, product_id):
+def cart_remove(request, variant_id):
     if request.session.session_key:
-        CartItem.objects.filter(product_id=product_id, session_id=request.session.session_key).delete()
+
+        CartItem.objects.filter(product_variant_id=variant_id, session_id=request.session.session_key).delete()
     return redirect('cart_detail')
 
 
@@ -116,8 +130,9 @@ def product_list(request):
     })
 
 
-def product_detail(request, pk):
-    return render(request, "product_detail.html", {"product": get_object_or_404(Product, pk=pk)})
+def product_detail(request, slug): # Принимаем slug
+    product = get_object_or_404(Product.objects.prefetch_related('variants'), slug=slug)
+    return render(request, "product_detail.html", {"product": product})
 
 
 def home(request):
@@ -168,4 +183,14 @@ def profile(request):
 
     return render(request, 'profile.html', {
         'orders': my_orders
+    })
+
+
+@login_required
+def order_detail(request, order_id):
+    # Берем заказ, проверяя ID и пользователя
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+
+    return render(request, 'order_detail.html', {
+        'order': order
     })

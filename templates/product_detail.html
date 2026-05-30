@@ -23,15 +23,47 @@
             </div>
 
             <div class="mt-8">
-                <form action="{% url 'cart_add' product.id %}" method="POST">
-    {% csrf_token %}
-    <button type="submit" class="bg-indigo-600 text-white px-8 py-3 rounded-lg hover:bg-indigo-700 transition">
-        Add to Cart
-    </button>
-</form>
-                <a href="{% url 'catalog' %}" class="ml-4 text-gray-600 hover:text-gray-900">Back to Catalog</a>
+                <form action="" method="POST" id="add-to-cart-form">
+                    {% csrf_token %}
+
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Select Size & Color:</label>
+                        <select name="variant_id" id="variant_select" onchange="checkSelection()"
+                                class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                            <option value="">-- Choose an option --</option>
+                            {% for variant in product.variants.all %}
+                                <option value="{{ variant.id }}" {% if variant.stock <= 0 %}disabled{% endif %}>
+                                    {{ variant.size }} - {{ variant.color }} {% if variant.stock <= 0 %}(Out of stock){% endif %}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <button type="submit" id="add-button" disabled
+                            class="bg-indigo-600 text-white px-8 py-3 rounded-lg hover:bg-indigo-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed">
+                        Add to Cart
+                    </button>
+                </form>
+
+                <a href="{% url 'catalog' %}" class="ml-4 text-gray-600 hover:text-gray-900 underline">Back to Catalog</a>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    function checkSelection() {
+        const select = document.getElementById('variant_select');
+        const form = document.getElementById('add-to-cart-form');
+        const button = document.getElementById('add-button');
+
+        if (select.value !== "") {
+            // Устанавливаем action формы на нужный URL
+            form.action = '/cart/add/' + select.value + '/';
+            button.disabled = false;
+        } else {
+            button.disabled = true;
+        }
+    }
+</script>
 {% endblock %}

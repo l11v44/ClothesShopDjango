@@ -1,10 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto py-16 px-4">
+    <a href="{% url 'profile' %}" class="text-indigo-600 font-semibold hover:underline mb-6 inline-block">&larr; Back to profile</a>
+    
+    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+        <div class="flex justify-between items-start mb-8">
+            <h1 class="text-2xl font-black">Order #{{ order.id }}</h1>
+            <span class="px-4 py-1.5 rounded-full text-sm font-semibold bg-slate-100 text-slate-700">
+                {{ order.get_status_display }}
+            </span>
+        </div>
+
+        <div class="space-y-4">
+            {% for item in order.items.all %}
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                <div class="flex items-center gap-4">
+                    <div>
+                        <p class="font-bold">{{ item.product.name }}</p>
+                        <p class="text-sm text-slate-500">Qty: {{ item.quantity }}</p>
+                    </div>
+                </div>
+                <p class="font-bold">${{ item.get_cost }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="mt-8 flex justify-end">
+            <div class="text-right">
+                <p class="text-slate-500">Total</p>
+                <p class="text-3xl font-black text-indigo-600">${{ order.get_total_cost }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
