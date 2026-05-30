@@ -11,16 +11,16 @@
                 <form method="POST" id="checkout-form" class="space-y-4">
                     {% csrf_token %}
                     {% if form.errors %}
-    <div class="bg-red-100 p-4 rounded-lg text-red-700">
-        <ul>
-            {% for field in form %}
-                {% for error in field.errors %}
-                    <li><strong>{{ field.label }}:</strong> {{ error }}</li>
-                {% endfor %}
-            {% endfor %}
-        </ul>
-    </div>
-{% endif %}
+                        <div class="bg-red-100 p-4 rounded-lg text-red-700">
+                            <ul>
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
 
                     <div class="grid grid-cols-2 gap-4">
                         <div>
@@ -39,13 +39,9 @@
                     </div>
 
                     <div class="mb-4">
-    <label class="block text-sm font-semibold text-gray-700 mb-1">Shipping Address</label>
-    {{ form.address }}
-
-    {% if not form.address %}
-        <p style="color: red;">DEBUG: Поле address не найдено!</p>
-    {% endif %}
-</div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Shipping Address</label>
+                        {{ form.address }}
+                    </div>
                 </form>
             </div>
         </div>
@@ -55,13 +51,17 @@
                 <h2 class="text-xl font-bold mb-6">Order Summary</h2>
                 <div class="space-y-4 mb-8">
                     {% for item in cart_items %}
-                    <div class="flex justify-between text-sm">
-                        <span>{{ item.product.name }} × {{ item.quantity }}</span>
-                        <span>${{ item.product.price }}</span>
+                    <div class="flex justify-between text-sm border-b border-gray-700 pb-2">
+                        <span>
+                            {{ item.product_variant.product.name|default:"Без названия" }}
+                            <br><small class="text-gray-400">Size: {{ item.product_variant.size }} | Color: {{ item.product_variant.color }}</small>
+                            <br>x {{ item.quantity }}
+                        </span>
+                        <span>${{ item.product_variant.product.price }}</span>
                     </div>
                     {% endfor %}
                 </div>
-                <div class="border-t border-gray-700 pt-4 flex justify-between font-bold text-lg">
+                <div class="pt-4 flex justify-between font-bold text-lg">
                     <span>Total</span>
                     <span>${{ total_price }}</span>
                 </div>
@@ -74,7 +74,6 @@
 </div>
 
 <style>
-    /* Стили для полей формы Django */
     input, textarea {
         width: 100%;
         padding: 12px 16px;
@@ -87,7 +86,6 @@
         background: #ffffff;
         border-color: #4f46e5;
         outline: none;
-        ring: 2px solid #4f46e5;
     }
 </style>
 {% endblock %}

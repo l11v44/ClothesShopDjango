@@ -130,7 +130,8 @@ def product_list(request):
     })
 
 
-def product_detail(request, slug): # Принимаем slug
+# catalog/views.py
+def product_detail(request, slug):
     product = get_object_or_404(Product.objects.prefetch_related('variants'), slug=slug)
     return render(request, "product_detail.html", {"product": product})
 

@@ -8,7 +8,7 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-
+from django.utils.text import slugify
 
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -19,6 +19,14 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products/', null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
 
+
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
     def __str__(self):
         return self.name
 from django.db import models
@@ -49,4 +57,3 @@ class ProductVariant(models.Model):
 
     def __str__(self):
         return f"{self.product.name} | {self.size} | {self.color}"
-

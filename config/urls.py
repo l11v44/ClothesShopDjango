@@ -1,19 +1,19 @@
-
-from django.contrib import admin
 from django.urls import path
+from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
-from django.views.generic import TemplateView
-from catalog.views import home , product_list , product_detail
-import catalog
-from catalog import views
-from django.contrib.auth import views as auth_views
+from catalog.views import home, product_list
+from catalog import views  # Убедись, что импорты настроены верно
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
-    path('catalog/' , product_list, name='catalog'),
-    path('product/<int:pk>/', product_detail, name='product_detail'),
+    path('catalog/', product_list, name='catalog'),
+
+    # ПРАВИЛЬНЫЙ ПАТТЕРН ДЛЯ SLUG:
+    path('product/<slug:slug>/', views.product_detail, name='product_detail'),
+
     path('cart/', views.cart_detail, name='cart_detail'),
     path('cart/add/<int:variant_id>/', views.cart_add, name='cart_add'),
     path('cart/remove/<int:variant_id>/', views.cart_remove, name='cart_remove'),
@@ -24,5 +24,6 @@ urlpatterns = [
     path('checkout/', views.checkout, name='checkout'),
     path('order/<int:order_id>/', views.order_detail, name='order_detail'),
 ]
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
