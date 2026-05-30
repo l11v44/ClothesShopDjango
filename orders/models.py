@@ -3,9 +3,9 @@ from django.db import models
 from catalog.models import Product , ProductVariant
 from config import settings
 STATUS_CHOICES = [
-    ('pending', 'В обработке'),
-    ('shipped', 'Отправлен'),
-    ('delivered', 'Доставлен'),
+    ('pending', 'Pending'),
+    ('shipped', 'Shipped'),
+    ('delivered', 'Delivered'),
 ]
 
 # Create your models here.

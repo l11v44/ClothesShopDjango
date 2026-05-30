@@ -139,13 +139,45 @@ def product_detail(request, slug):
 def home(request):
     return render(request, "home.html")
 
+def reviews(request):
+    reviews_list = [
+        {"name": "James Anderson", "text": "Exceptional service. The quality of the materials is beyond my expectations. Highly recommended!", "stars": 5},
+        {"name": "Sophie Müller", "text": "Very reliable site. My order arrived in Berlin faster than expected and perfectly packaged.", "stars": 5},
+        {"name": "Liam O'Connor", "text": "Great customer support! They helped me choose the right size and the item fits perfectly.", "stars": 4},
+        {"name": "Emma Dubois", "text": "Absolutely love the aesthetic. The website is very easy to use and secure.", "stars": 5},
+        {"name": "Lucas Schmidt", "text": "My second purchase here. Never disappointed. Professional and trustworthy brand.", "stars": 5},
+        {"name": "Charlotte Bianchi", "text": "Authentic products and very fast shipping to Italy. A very smooth shopping experience.", "stars": 5},
+        {"name": "Noah Petersen", "text": "Everything was exactly as described. Transparent and honest business practice.", "stars": 4},
+        {"name": "Amelia Rossi", "text": "Stunning quality and fast, professional service. Definitely coming back for more.", "stars": 5},
+        {"name": "William Taylor", "text": "Everything is flawless. From the checkout process to the final product quality. 10/10.", "stars": 5},
+        {"name": "Isabella Jensen", "text": "Love this store! Very trendy collection and the delivery is incredibly fast.", "stars": 5},
+    ]
+    return render(request, "reviews.html", {"reviews": reviews_list})
 
-# --- АУТЕНТИФИКАЦИЯ ---
+def faq(request):
+    return render(request, "faq.html")
+
+def atelier(request):
+    return render(request, "atelier.html")
+
+
+def heritage(request):
+    milestones = [
+        {"year": "1960", "title": "The First Stitch", "desc": "Founded in the heart of Milan by master tailor Lorenzo Rossi. A small workshop dedicated to the art of bespoke elegance."},
+        {"year": "1974", "title": "Silk Revolution", "desc": "Introduction of our signature silk-weaving technique, setting a new standard for luxury fabrics in European fashion houses."},
+        {"year": "1988", "title": "Paris Debut", "desc": "The brand's first international showcase at Paris Fashion Week, establishing us as a global symbol of quiet luxury."},
+        {"year": "1995", "title": "The Golden Ratio", "desc": "Patented a unique cutting system based on mathematical precision, ensuring the perfect silhouette for every body type."},
+        {"year": "2008", "title": "Legacy of Sustainability", "desc": "Pioneered the 'Eternal Garment' initiative, focusing on durability and eco-friendly sourcing long before it was a trend."},
+        {"year": "2020", "title": "Digital Atelier", "desc": "Merging tradition with technology. Launching our first 3D virtual fitting room for global clients."},
+        {"year": "2026", "title": "The New Era", "desc": "Continuing the journey into the future, blending smart-fabrics with the soul of artisan craftsmanship."},
+    ]
+    return render(request, "heritage.html", {"milestones": milestones})
 
 @login_required
 def profile(request):
     return render(request, 'profile.html', {'user': request.user})
-
+def about(request):
+    return render(request, 'about.html')
 
 def signup(request):
     if request.method == 'POST':
@@ -195,3 +227,4 @@ def order_detail(request, order_id):
     return render(request, 'order_detail.html', {
         'order': order
     })
+

@@ -23,6 +23,11 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('checkout/', views.checkout, name='checkout'),
     path('order/<int:order_id>/', views.order_detail, name='order_detail'),
+    path('about/', views.about, name='about'),
+    path('reviews/', views.reviews, name='reviews'),
+    path('faq/', views.faq, name='faq'),
+    path('atelier/', views.atelier, name='atelier'),
+    path('heritage/', views.heritage, name='heritage'),
 ]
 
 if settings.DEBUG:

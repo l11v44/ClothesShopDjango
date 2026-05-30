@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="relative py-20 bg-gray-900 overflow-hidden">
+    <div class="absolute inset-0 opacity-20">
+        <div class="absolute top-0 left-0 w-96 h-96 bg-indigo-500 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-blue-500 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
+    </div>
+    
+    <div class="relative max-w-7xl mx-auto px-4 text-center">
+        <h1 class="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight" data-aos="zoom-out">
+            We are <span class="text-indigo-400">Future</span> of Fashion
+        </h1>
+        <p class="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed" data-aos="fade-up" data-aos-delay="200">
+            Founded in 2026, our mission is to blend high-end craftsmanship with sustainable technology to create garments that last a lifetime.
+        </p>
+    </div>
+</div>
+
+<div class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <div class="p-10 rounded-3xl bg-gray-50 border border-gray-100 hover:border-indigo-500 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500 group" data-aos="fade-up" data-aos-delay="100">
+                <div class="w-16 h-16 bg-white shadow-sm rounded-2xl flex items-center justify-center text-3xl mb-8 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-500">🌿</div>
+                <h3 class="text-2xl font-bold mb-4 text-gray-900">100% Organic</h3>
+                <p class="text-gray-600 leading-relaxed">Every fiber in our clothing is sourced from certified organic farms, ensuring zero harm to the planet.</p>
+            </div>
+
+            <div class="p-10 rounded-3xl bg-gray-50 border border-gray-100 hover:border-indigo-500 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500 group" data-aos="fade-up" data-aos-delay="200">
+                <div class="w-16 h-16 bg-white shadow-sm rounded-2xl flex items-center justify-center text-3xl mb-8 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-500">🚀</div>
+                <h3 class="text-2xl font-bold mb-4 text-gray-900">Next-Day Delivery</h3>
+                <p class="text-gray-600 leading-relaxed">Our AI-powered logistics centers ensure that your favorites reach your doorstep in less than 24 hours.</p>
+            </div>
+
+            <div class="p-10 rounded-3xl bg-gray-50 border border-gray-100 hover:border-indigo-500 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500 group" data-aos="fade-up" data-aos-delay="300">
+                <div class="w-16 h-16 bg-white shadow-sm rounded-2xl flex items-center justify-center text-3xl mb-8 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-500">🎨</div>
+                <h3 class="text-2xl font-bold mb-4 text-gray-900">Unique Design</h3>
+                <p class="text-gray-600 leading-relaxed">We work with independent artists worldwide to bring you exclusive collections you won't find anywhere else.</p>
+            </div>
+
+            <div class="p-10 rounded-3xl bg-gray-50 border border-gray-100 hover:border-indigo-500 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500 group" data-aos="fade-up" data-aos-delay="100">
+                <div class="w-16 h-16 bg-white shadow-sm rounded-2xl flex items-center justify-center text-3xl mb-8 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-500">👔</div>
+                <h3 class="text-2xl font-bold mb-4 text-gray-900">Handcrafted</h3>
+                <p class="text-gray-600 leading-relaxed">Every stitch is inspected by master tailors to guarantee the "premium feel" our customers love so much.</p>
+            </div>
+
+            <div class="p-10 rounded-3xl bg-gray-50 border border-gray-100 hover:border-indigo-500 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500 group" data-aos="fade-up" data-aos-delay="200">
+                <div class="w-16 h-16 bg-white shadow-sm rounded-2xl flex items-center justify-center text-3xl mb-8 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-500">🌍</div>
+                <h3 class="text-2xl font-bold mb-4 text-gray-900">Global Community</h3>
+                <p class="text-gray-600 leading-relaxed">With over 1 million happy customers in 50+ countries, we are building a global family of style enthusiasts.</p>
+            </div>
+
+            <div class="p-10 rounded-3xl bg-gray-50 border border-gray-100 hover:border-indigo-500 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500 group" data-aos="fade-up" data-aos-delay="300">
+                <div class="w-16 h-16 bg-white shadow-sm rounded-2xl flex items-center justify-center text-3xl mb-8 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-500">⚡</div>
+                <h3 class="text-2xl font-bold mb-4 text-gray-900">Innovation</h3>
+                <p class="text-gray-600 leading-relaxed">We use thermal-regulating fabrics that keep you warm in winter and cool in summer automatically.</p>
+            </div>
+
+            <div class="p-10 rounded-3xl bg-gray-50 border border-gray-100 hover:border-indigo-500 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500 group" data-aos="fade-up" data-aos-delay="100">
+                <div class="w-16 h-16 bg-white shadow-sm rounded-2xl flex items-center justify-center text-3xl mb-8 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-500">♻️</div>
+                <h3 class="text-2xl font-bold mb-4 text-gray-900">Zero Waste</h3>
+                <p class="text-gray-600 leading-relaxed">Our production process is 99% waste-free. We recycle every fabric scrap into new accessories.</p>
+            </div>
+
+            <div class="p-10 rounded-3xl bg-gray-50 border border-gray-100 hover:border-indigo-500 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500 group" data-aos="fade-up" data-aos-delay="200">
+                <div class="w-16 h-16 bg-white shadow-sm rounded-2xl flex items-center justify-center text-3xl mb-8 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-500">🤝</div>
+                <h3 class="text-2xl font-bold mb-4 text-gray-900">Fair Trade</h3>
+                <p class="text-gray-600 leading-relaxed">We ensure fair wages and safe working conditions for every person involved in making your clothes.</p>
+            </div>
+
+            <div class="p-10 rounded-3xl bg-gray-50 border border-gray-100 hover:border-indigo-500 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500 group" data-aos="fade-up" data-aos-delay="300">
+                <div class="w-16 h-16 bg-white shadow-sm rounded-2xl flex items-center justify-center text-3xl mb-8 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-500">💎</div>
+                <h3 class="text-2xl font-bold mb-4 text-gray-900">Lifetime Warranty</h3>
+                <p class="text-gray-600 leading-relaxed">We believe in our quality so much that we offer a lifetime repair warranty on our premium jackets.</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="py-20 bg-indigo-600">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+        <h2 class="text-3xl md:text-5xl font-bold text-white mb-8" data-aos="fade-up">Ready to join the revolution?</h2>
+        <a href="{% url 'catalog' %}" class="inline-block bg-white text-indigo-600 px-10 py-4 rounded-full font-black text-lg hover:bg-gray-100 transition transform hover:-translate-y-1 shadow-xl">
+            Start Shopping
+        </a>
+    </div>
+</div>
+{% endblock %}

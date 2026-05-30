@@ -32,8 +32,13 @@
                 </a>
 
                 <div class="flex items-center space-x-8">
-                    <a href="{% url 'catalog' %}" class="text-sm font-semibold text-gray-600 hover:text-indigo-600 transition">Catalog</a>
 
+                    <a href="{% url 'catalog' %}" class="text-sm font-semibold text-gray-600 hover:text-indigo-600 transition">Catalog</a>
+                    <a href="{% url 'about' %}" class="text-gray-700 hover:text-indigo-600 font-medium transition">About Us</a>
+                    <a href="{% url 'reviews' %}" class="hover:text-indigo-600">Reviews</a>
+                    <a href="{% url 'atelier' %}" class="hover:text-indigo-600 transition">Our Craft</a>
+                    <a href="{% url 'heritage' %}" class="hover:text-indigo-600 transition">Heritage</a>
+                    <a href="{% url 'faq' %}" class="hover:text-indigo-600">FAQ</a>
                     <a href="{% url 'cart_detail' %}" class="relative group text-sm font-semibold text-gray-600 hover:text-indigo-600 transition">
                         Cart
                         {% if cart_count > 0 %}
