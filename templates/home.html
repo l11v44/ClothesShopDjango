@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="relative py-24 sm:py-32 overflow-hidden">
+    <div class="absolute -top-24 -right-24 w-96 h-96 bg-indigo-200 rounded-full blur-3xl opacity-50"></div>
+    <div class="absolute top-1/2 left-0 w-72 h-72 bg-blue-100 rounded-full blur-3xl opacity-50"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 text-center">
+        <span class="inline-block py-1 px-3 rounded-full bg-indigo-50 text-indigo-600 font-semibold text-sm mb-6" data-aos="fade-down">2026 Collection</span>
+        <h1 class="text-5xl sm:text-7xl font-extrabold text-gray-900 mb-8 tracking-tight" data-aos="fade-up">
+            Quality Meets <span class="text-indigo-600">Style</span>
+        </h1>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto mb-10 leading-relaxed" data-aos="fade-up" data-aos-delay="200">
+            Timeless design for modern living. Explore our hand-picked selection of premium essentials crafted to last.
+        </p>
+        <div class="flex gap-4 justify-center" data-aos="fade-up" data-aos-delay="400">
+            <a href="{% url 'catalog' %}" class="bg-gray-900 text-white px-8 py-4 rounded-full font-bold hover:bg-gray-800 transition shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
+                Explore Catalog
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+        <div class="p-8 rounded-3xl hover:bg-gray-50 transition" data-aos="fade-up">
+            <div class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-6 text-2xl">✨</div>
+            <h3 class="text-xl font-bold mb-3">Premium Quality</h3>
+            <p class="text-gray-600">We source only the finest materials for every single piece in our collection.</p>
+        </div>
+        <div class="p-8 rounded-3xl hover:bg-gray-50 transition" data-aos="fade-up" data-aos-delay="200">
+            <div class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-6 text-2xl">🚚</div>
+            <h3 class="text-xl font-bold mb-3">Fast Shipping</h3>
+            <p class="text-gray-600">Get your new favorites delivered straight to your door with our priority logistics.</p>
+        </div>
+        <div class="p-8 rounded-3xl hover:bg-gray-50 transition" data-aos="fade-up" data-aos-delay="400">
+            <div class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-6 text-2xl">🛡️</div>
+            <h3 class="text-xl font-bold mb-3">Money-back Guarantee</h3>
+            <p class="text-gray-600">Not satisfied? Return it within 30 days for a full refund, no questions asked.</p>
+        </div>
+    </div>
+</div>
+
+<div class="py-24 border-t border-gray-100">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div class="relative" data-aos="fade-right">
+                <div class="absolute inset-0 bg-indigo-600 rounded-3xl rotate-3 opacity-10"></div>
+                <img src="{% static 'images/edited-photo3.png' %}" alt="Our Story" class="relative rounded-3xl shadow-2xl w-full h-auto">
+            </div>
+            <div data-aos="fade-left">
+                <h2 class="text-4xl font-bold mb-6">Craftsmanship Matters</h2>
+                <p class="text-lg text-gray-600 leading-relaxed mb-6">
+                    Our story began with a simple idea: that quality shouldn't be a luxury. We work directly with master artisans to create products that feel as good as they look.
+                </p>
+                <ul class="space-y-4">
+                    <li class="flex items-center text-gray-700">✓ Ethically sourced materials</li>
+                    <li class="flex items-center text-gray-700">✓ Built for long-term durability</li>
+                    <li class="flex items-center text-gray-700">✓ Modern aesthetic design</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

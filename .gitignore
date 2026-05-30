@@ -1,0 +1,17 @@
+# Виртуальное окружение
+.venv/
+env/
+venv/
+
+# База данных
+db.sqlite3
+
+# Кэш
+__pycache__/
+*.pyc
+
+# Настройки PyCharm
+.idea/
+
+# Файлы настроек (если там пароли)
+config/settings_local.py

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+
+        <div class="bg-gray-100 rounded-2xl p-6 flex items-center justify-center">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}"
+                     class="max-h-96 object-contain rounded-xl">
+            {% else %}
+                <div class="h-64 w-full flex items-center justify-center text-gray-400">No Image</div>
+            {% endif %}
+        </div>
+
+        <div>
+            <h1 class="text-4xl font-bold text-gray-900">{{ product.name }}</h1>
+            <p class="text-2xl font-bold text-indigo-600 mt-4">{{ product.price }} $</p>
+
+            <div class="mt-6 text-gray-600 leading-relaxed">
+                <h3 class="font-bold text-gray-900">Description:</h3>
+                <p>{{ product.description }}</p>
+            </div>
+
+            <div class="mt-8">
+                <form action="{% url 'cart_add' product.id %}" method="POST">
+    {% csrf_token %}
+    <button type="submit" class="bg-indigo-600 text-white px-8 py-3 rounded-lg hover:bg-indigo-700 transition">
+        Add to Cart
+    </button>
+</form>
+                <a href="{% url 'catalog' %}" class="ml-4 text-gray-600 hover:text-gray-900">Back to Catalog</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

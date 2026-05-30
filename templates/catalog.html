@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold mb-8" data-aos="fade-down">Catalog</h1>
+
+    <div class="flex flex-col md:flex-row gap-8">
+
+        <aside class="w-full md:w-1/4">
+            <h2 class="text-xl font-bold mb-4">Categories</h2>
+            <ul class="space-y-2">
+                <li>
+                    <a href="{% url 'catalog' %}"
+                       class="{% if not request.GET.category %}text-indigo-600 font-bold{% else %}text-gray-700{% endif %} hover:text-indigo-600 font-medium">
+                       All Categories
+                    </a>
+                </li>
+                {% for cat in categories %}
+                <li>
+                    <a href="?category={{ cat.slug }}"
+                       class="{% if request.GET.category == cat.slug %}text-indigo-600 font-bold{% else %}text-gray-700{% endif %} hover:text-indigo-600 font-medium">
+                       {{ cat.name }}
+                    </a>
+                    {% if cat.children.all %}
+                        <ul class="ml-4 mt-1 space-y-1">
+                            {% for sub in cat.children.all %}
+                            <li>
+                                <a href="?category={{ sub.slug }}"
+                                   class="{% if request.GET.category == sub.slug %}text-indigo-600 font-bold{% else %}text-gray-500{% endif %} hover:text-indigo-600 text-sm">
+                                   - {{ sub.name }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </aside>
+
+        <main class="w-full md:w-3/4">
+
+            {% if request.GET.category %}
+                <h3 class="text-2xl font-bold mb-6 text-gray-800">
+                    Category: <span class="text-indigo-600">{{ request.GET.category|title }}</span>
+                </h3>
+            {% endif %}
+
+            <div class="mb-12 bg-gray-50 p-6 rounded-2xl border border-gray-100 shadow-sm">
+                <form method="GET" action="{% url 'catalog' %}" class="mb-6">
+                    <input type="text" name="q" placeholder="Search products..."
+                           value="{{ request.GET.q }}"
+                           class="border p-2 rounded-lg w-full md:w-2/3 focus:ring-2 focus:ring-indigo-500 outline-none">
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Search</button>
+                </form>
+
+                <div class="flex flex-wrap gap-3">
+                    <a href="?{% if request.GET.category %}category={{ request.GET.category }}{% endif %}" class="px-4 py-2 bg-white border rounded-lg hover:bg-indigo-50 hover:border-indigo-300 transition">All Prices</a>
+                    <a href="?min_price=0&max_price=50{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}" class="px-4 py-2 bg-white border rounded-lg hover:bg-indigo-50 hover:border-indigo-300 transition">Under 50$</a>
+                    <a href="?min_price=50&max_price=100{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}" class="px-4 py-2 bg-white border rounded-lg hover:bg-indigo-50 hover:border-indigo-300 transition">50$ - 100$</a>
+                    <a href="?min_price=100{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}" class="px-4 py-2 bg-white border rounded-lg hover:bg-indigo-50 hover:border-indigo-300 transition">Over 100$</a>
+                </div>
+
+                <div class="mt-4 pt-4 border-t border-gray-200">
+                    <span class="text-sm text-gray-600 mr-2">Sort by:</span>
+                    <a href="?sort=price_asc{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}" class="text-sm text-indigo-600 font-bold hover:underline mr-4">Price: Low to High</a>
+                    <a href="?sort=price_desc{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}" class="text-sm text-indigo-600 font-bold hover:underline">Price: High to Low</a>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {% for product in products %}
+                <div class="border rounded-2xl p-4 shadow-sm hover:shadow-xl transition-all duration-300 bg-white" data-aos="fade-up">
+                    <div class="bg-gray-100 h-64 rounded-xl mb-4 p-4 flex items-center justify-center overflow-hidden">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="max-h-full max-w-full object-contain rounded-xl transition-transform hover:scale-105 duration-500">
+                        {% else %}
+                            <span class="text-gray-400">No image</span>
+                        {% endif %}
+                    </div>
+                    <h2 class="text-xl font-bold mt-2">{{ product.name }}</h2>
+                    <p class="text-indigo-600 font-bold mt-2">{{ product.price }} $</p>
+                    <a href="{% url 'product_detail' product.pk %}" class="block mt-4 text-center bg-gray-900 text-white py-2 rounded-lg hover:bg-gray-800 transition">View Details</a>
+                </div>
+                {% empty %}
+                    <p class="text-gray-500 text-center">No products found matching your criteria.</p>
+                {% endfor %}
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}

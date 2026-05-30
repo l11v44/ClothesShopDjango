@@ -1,0 +1,47 @@
+
+{% extends 'base.html' %}
+{% load cart_extras %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold mb-8">Your Shopping Cart</h1>
+
+    {% if cart_items %}
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <div class="space-y-6">
+                {% for item in cart_items %}
+                <div class="flex items-center justify-between border-b pb-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden">
+                            {% if item.product.image %}
+                                <img src="{{ item.product.image.url }}" class="w-full h-full object-cover">
+                            {% endif %}
+                        </div>
+                        <div>
+                            <h2 class="font-bold text-lg">{{ item.product.name }}</h2>
+                            <p class="text-gray-500">{{ item.product.price }} $ x {{ item.quantity }}</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-bold text-xl">{{ item.product.price|multiply:item.quantity }} $</p>
+                        <a href="{% url 'cart_remove' item.product.id %}" class="text-red-500 text-sm hover:underline">Remove</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="mt-8 flex justify-between items-center">
+                <p class="text-xl font-bold">Total: {{ total_price }} $</p>
+                <a href="{% url 'checkout' %}" class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition">
+                    Checkout
+                </a>
+            </div>
+        </div>
+    {% else %}
+        <div class="text-center py-20">
+            <p class="text-gray-500 text-xl">Your cart is empty.</p>
+            <a href="{% url 'catalog' %}" class="text-indigo-600 hover:underline mt-4 block">Back to Catalog</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
